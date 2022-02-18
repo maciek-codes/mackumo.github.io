@@ -2,14 +2,14 @@
 <head>
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
-<title>Maciek Codes &#183; Maciek Codes</title>
+<title>A case of Datadog APM not stiching traces &#183; Maciek Codes</title>
 <meta name=description content>
 <meta name=generator content="Hugo 0.92.2">
 <meta name=twitter:card content="summary">
-<meta name=twitter:title content="Maciek Codes &#183; Maciek Codes">
+<meta name=twitter:title content="A case of Datadog APM not stiching traces &#183; Maciek Codes">
 <meta name=twitter:description content>
 <meta property="og:type" content="article">
-<meta property="og:title" content="Maciek Codes &#183; Maciek Codes">
+<meta property="og:title" content="A case of Datadog APM not stiching traces &#183; Maciek Codes">
 <meta property="og:description" content>
 <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700" rel=stylesheet type=text/css>
 <link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css>
@@ -47,6 +47,11 @@
 <p class=post-meta>
 </p>
 </header>
+<div class=post-share>
+<div class=post-share-links>
+<h4>Share</h4>
+</div>
+</div>
 <div class=post-description>
 <p>Recently I worked on instrumenting a service with Datadog APM (Application Performance Monitoring). It&rsquo;s when I ran into an interesting issue that the StackOverflow didn&rsquo;t offer the usual obvious answer. After some digging, I&rsquo;m finally sharing my solution it here.</p>
 <p>The problem was that sometimes traces produced by two services didn&rsquo;t get glued together by the Datadog backend. It appeared that APM traces with calls between &ldquo;Service A&rdquo; and &ldquo;Service B&rdquo; were correlated, but the same stitching didn&rsquo;t work when &ldquo;Service B&rdquo; made a call to &ldquo;Service A&rdquo;.</p>
