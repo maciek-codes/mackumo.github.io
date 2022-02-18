@@ -1,5 +1,5 @@
 ---
-title: "A case of Datadog APM not stiching traces"
+title: "A case of Datadog APM not stitching traces"
 date: 2022-02-17T22:16:50-08:00
 draft: false
 ---
