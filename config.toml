@@ -1,4 +1,4 @@
-baseURL = 'https://kumorek.com/'
+baseURL = 'https://www.kumorek.com/'
 languageCode = 'en-us'
 title = 'Maciek Codes'
 theme = 'purehugo'
