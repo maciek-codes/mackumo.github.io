@@ -55,11 +55,10 @@
 <p>Datadog automatically injects the trace ID but it&rsquo;s not very well documented what is involved. At least not in Datadog&rsquo;s documentation.</p>
 <p>Finally I found a useful page: <a href=https://docs.datadoghq.com/synthetics/apm/#how-are-traces-linked-to-tests>how are traces linked to tests</a>. Based on this article, I learned that the Datadog agent can automatically inject headers in outgoing HTTP calls.</p>
 <p>I looked at the <a href=https://github.com/DataDog/dd-trace-java/blob/v0.95.1/dd-java-agent/instrumentation/opentelemetry/src/main/java/datadog/trace/instrumentation/opentelemetry/OtelContextPropagators.java>Java tracer source code</a> and learned that it actually follows <a href=https://opentelemetry.io/docs/>OpenTelemetry</a> convention for <a href=https://opentelemetry.lightstep.com/core-concepts/context-propagation/>context propagation</a>. The tracer agent, running within the same process as my Java application, intercepts any HTTP requests and sprinkles some extra headers to help corrlate the spans.</p>
-<p>Why was the context propagation broken? Knowing that I should expect extra headers to show up in calls made between the services, I was able to confirm that the headers were simply missing.</p>
-<p>In my particular case, this was due to the way nginx reverse proxy was configured for the &ldquo;Service A&rdquo;. The nginx.conf contained the following line:</p>
+<p>Why was the context propagation broken? Knowing that I should expect extra headers to show up in the calls made between the services, I was able to confirm that the headers were simply missing. In my particular case, this was due to the way nginx reverse proxy was configured for the &ldquo;Service A&rdquo;. The nginx.conf contained the following line:</p>
 <pre tabindex=0><code>proxy_pass_request_headers off;
-</code></pre><p>It means that the headers are not passed to the upstream server unless explicitly requested with <code>proxy_set_header</code>. Therefore, the headers were missing by design.</p>
-<p>From there the fix was easy. I added the following lines to nginx.conf:</p>
+</code></pre><p>It means that the headers would not be passed to the upstream server unless explicitly requested with <code>proxy_set_header</code>. Therefore, the headers were missing by design.</p>
+<p>From that point, the fix was easy. I added the following lines to nginx.conf:</p>
 <pre tabindex=0><code>location / {
     # ...
 
