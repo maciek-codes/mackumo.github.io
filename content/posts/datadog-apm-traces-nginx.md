@@ -24,7 +24,7 @@ proxy_pass_request_headers off;
 ```
 It means that the headers would not be passed to the upstream server unless explicitly requested with `proxy_set_header`. Therefore, the headers were missing by design.
 
-From that point, the fix was easy. I added the following lines to nginx.conf:
+From that the fix was easy. I added the following lines to nginx.conf:
 ```
 location / {
     # ...

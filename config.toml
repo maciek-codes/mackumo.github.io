@@ -2,3 +2,6 @@ baseURL = 'https://www.kumorek.com/'
 languageCode = 'en-us'
 title = 'Maciek Codes'
 theme = 'purehugo'
+
+[permalinks]
+  posts = '/:year/:month/:title/'
