@@ -43,7 +43,7 @@
 <h1 class=content-subhead>17 Feb 2022, 22:16</h1>
 <section class=post>
 <header class=post-header>
-<a href=https://www.kumorek.com/posts/datadog-nginx/ class=post-title>A case of Datadog APM not stiching traces</a>
+<a href=https://www.kumorek.com/2022/02/a-case-of-datadog-apm-not-stiching-traces/ class=post-title>A case of Datadog APM not stiching traces</a>
 <p class=post-meta>
 </p>
 </header>
@@ -63,7 +63,7 @@
 <p>Why was the context propagation broken? Knowing that I should expect extra headers to show up in the calls made between the services, I was able to confirm that the headers were simply missing. In my particular case, this was due to the way nginx reverse proxy was configured for the &ldquo;Service A&rdquo;. The nginx.conf contained the following line:</p>
 <pre tabindex=0><code>proxy_pass_request_headers off;
 </code></pre><p>It means that the headers would not be passed to the upstream server unless explicitly requested with <code>proxy_set_header</code>. Therefore, the headers were missing by design.</p>
-<p>From that point, the fix was easy. I added the following lines to nginx.conf:</p>
+<p>From that the fix was easy. I added the following lines to nginx.conf:</p>
 <pre tabindex=0><code>location / {
     # ...
 
