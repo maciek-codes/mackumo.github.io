@@ -18,15 +18,13 @@ Finally I found a useful page: [how are traces linked to tests](https://docs.dat
 
 I looked at the [Java tracer source code](https://github.com/DataDog/dd-trace-java/blob/v0.95.1/dd-java-agent/instrumentation/opentelemetry/src/main/java/datadog/trace/instrumentation/opentelemetry/OtelContextPropagators.java) and learned that it actually follows [OpenTelemetry](https://opentelemetry.io/docs/) convention for [context propagation](https://opentelemetry.lightstep.com/core-concepts/context-propagation/). The tracer agent, running within the same process as my Java application, intercepts any HTTP requests and sprinkles some extra headers to help corrlate the spans.
 
-Why was the context propagation broken? Knowing that I should expect extra headers to show up in calls made between the services, I was able to confirm that the headers were simply missing.
-
-In my particular case, this was due to the way nginx reverse proxy was configured for the "Service A". The nginx.conf contained the following line:
+Why was the context propagation broken? Knowing that I should expect extra headers to show up in the calls made between the services, I was able to confirm that the headers were simply missing. In my particular case, this was due to the way nginx reverse proxy was configured for the "Service A". The nginx.conf contained the following line:
 ```
 proxy_pass_request_headers off;
 ```
-It means that the headers are not passed to the upstream server unless explicitly requested with `proxy_set_header`. Therefore, the headers were missing by design.
+It means that the headers would not be passed to the upstream server unless explicitly requested with `proxy_set_header`. Therefore, the headers were missing by design.
 
-From there the fix was easy. I added the following lines to nginx.conf:
+From that point, the fix was easy. I added the following lines to nginx.conf:
 ```
 location / {
     # ...
